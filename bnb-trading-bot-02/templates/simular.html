@@ -1,0 +1,184 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<body id="body_simular" class="colorFondo">
+
+<!-- Nav Bar -->
+<div class="ui inverted secondary pointing menu colorBarras">
+  <a class="item" href="/">
+    Dashboard
+  </a>
+  <a class="item" href="/bots">
+    BOTs
+  </a>
+  <a class="item active">
+    Backtest
+  </a>
+  <div class="right menu">
+    <a class="ui item">
+      Logout
+    </a>
+  </div>
+</div>
+
+<!-- barra info -->
+	<div class="ui grid inverted segment colorBarras">
+		<div class="ui bottom aligned" style="padding-top: 7px; padding-bottom: 7px; color: rgb(240, 185, 11); width: 100%;">
+			<h3>{{ par1 }}/{{ par2 }}</h3>
+		</div>
+		<div class="ui middle aligned floatOnPhone">
+			<b>Desde</b> <br> <p style="color: rgba(100, 100, 100, 1)">{{ desde | datetime_format }}</p>
+		</div>
+		<div class="ui middle aligned floatOnPhone">
+			<b>Hasta</b> <br> <p style="color: rgba(100, 100, 100, 1)">{{ hasta | datetime_format }}</p>
+		</div>
+		<div class="ui middle aligned hideOnPhone">
+			<b>Intervalo</b> <br> <p style="color: rgba(100, 100, 100, 1)">{{ intervalo }} miuntos</p>
+		</div>
+		<div class="ui middle aligned hideOnPhone">
+			<b>Media</b> <br> <p style="color: rgba(100, 100, 100, 1)">{{ media }} velas</p>
+		</div>
+		<div class="ui middle aligned hideOnPhone">
+			<b>Tendencia</b> <br> <p style="color: rgba(100, 100, 100, 1)">{{ tendencia }} medias</p>
+		</div>
+		<div class="ui right aligned" style="padding-top: 7px; padding-bottom: 7px">
+			<!--<a href="/backtest"><h4 style="color: rgb(240, 185, 11);">Nuevo Backtest</h4></a>		
+			--><button onclick="location.href='/backtest'" class="botonBinance">Nuevo Backtest</button>		
+		</div>
+	</div>
+
+	<div style="width: 100%">
+		<div id="chart" class="displayBlockOnPhone" style="width: 70%; display: inline-block;">
+		</div>
+		<div id="results" class="displayBlockOnPhone" style="width: 29%; display: inline-block;">
+			<table class="ui inverted very small compact unstackable table">
+				<thead>
+					<tr>
+						<th><h4 class="colorTextoBinance">RESULTS</h4></th>
+						<th><h4 class="colorTextoBinance">BUY & HOLD</h4></th>
+						<th><h4 class="colorTextoBinance">BOT</h4></th>
+					</tr>
+				</thead>
+				<tr>
+					<td class="left aligned colorTextoBinance">TRANSACTIONS</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr class="colorBarras">
+					<td>#</td>
+					{% for tr in transactions %}
+					<td>{{ tr }}</td>
+					{% endfor %}
+				</tr>
+				<tr>
+					<td class="left aligned colorTextoBinance">STARTING CAPITAL</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr class="colorBarras">
+					<td>{{ par1 }}</td>
+					{% for sc in starting_capital[0] %}
+					<td>{{ precision_filter(sc, quantity_precision) }}</td>
+					{% endfor %}
+				</tr>
+				<tr class="colorBarras">
+					<td>{{ par2 }}</td>
+					{% for sc in starting_capital[1] %}
+					<td>{{ precision_filter(sc, quantity_precision) }}</td>
+					{% endfor %}
+				</tr>
+					<td class="left aligned colorTextoBinance">CURRENT WALLET</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr class="colorBarras">
+					<td>{{ par1 }}</td>
+					{% for cw in current_wallet[0] %}
+					<td>{{ precision_filter(cw, quantity_precision) }}</td>
+					{% endfor %}
+				</tr>
+				<tr class="colorBarras">
+					<td>{{ par2 }}</td>
+					{% for cw in current_wallet[1] %}
+					<td>{{ precision_filter(cw, quantity_precision) }}</td>
+					{% endfor %}
+				</tr>
+				</tr>
+					<td class="left aligned colorTextoBinance">STRATEGY RESULTS</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr class="colorBarras">
+					<td>{{ par2 }}</td>
+					{% for st in strategy_result %}
+						{% if st < 0 %}
+							<td style="color: rgba(200, 0, 0, 1)">{{ precision_filter(st, price_precision) }}</td>
+						{% else %}
+							<td style="color: rgba(0, 200, 0, 1)">{{ precision_filter(st, price_precision) }}</td>
+						{% endif %}
+					{% endfor %}
+				</tr>
+				<tr class="colorBarras">
+					<td>%</td>
+					{% for st_pct in strategy_result_pct %}
+						{% if st_pct < 0 %}
+							<td style="color: rgba(200, 0, 0, 1)">{{ "{:2.2%}".format(st_pct) }}</td>
+						{% else %}
+							<td style="color: rgba(0, 200, 0, 1)">{{ "{:2.2%}".format(st_pct) }}</td>
+						{% endif %}
+					{% endfor %}
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div id="chart_trades" style="width: 100%; margin-top: 20px">
+	</div>
+
+	<div id="trades" class="ui sixteen wide column hideOnPhone" style="margin-top: 20px; margin-bottom: 20px">
+		<table class="ui inverted very small compact unstackable table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Fecha y Hora</th>
+					<th>Operacion</th>
+					<th>Precio</th>
+					<th>Qty</th>
+					<th>Strategy Result</th>
+					<th>Strategy Result (%)</th>
+				</tr>
+			</thead>
+			{% for trade in trades %}
+			<tr>
+				<td>{{ trade['Id'] }}</td>
+				<td>{{ trade['time'] | datetime_format }}</td>
+				<td>{{ trade['side'] }}</td>
+				<td>{{ precision_filter(trade['price'], price_precision) }}</td>
+				<td>{{ precision_filter(trade['qty'], quantity_precision) }}</td>
+				<td>{{ precision_filter(trade['strategy_result'], price_precision) }}</td>	
+				{% if trade['strategy_result_pct'] < 0 %}
+					<td style="color: rgba(200, 0, 0, 1)">{{ "{:2.2%}".format(trade['strategy_result_pct']) }}</td>
+				{% else %}
+					<td style="color: rgba(0, 200, 0, 1)">{{ "{:2.2%}".format(trade['strategy_result_pct']) }}</td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+
+<!--
+<script type="text/javascript">
+	var websocket = new WebSocket("wss://stream.binance.com:9443/ws/sfpusdt@kline_5m")
+	var	div1 = document.getElementById("stream")
+
+	websocket.onmessage = function (event) {
+		//div1.append(event.data)		
+	}
+</script>
+-->
+
+<script type="text/javascript" src="{{ url_for('static', filename='chart.js') }}"></script>
+
+</body>
+
+{% endblock content %}

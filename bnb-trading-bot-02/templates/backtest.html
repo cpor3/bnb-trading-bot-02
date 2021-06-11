@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<body class="colorFondo">
+
+<div class="ui secondary pointing inverted menu colorBarras">
+  <a class="item" href="/">
+    Dashboard
+  </a>
+  <a class="item" href="/bots">
+    BOTs
+  </a>
+  <a class="item active">
+    Backtest
+  </a>
+  <div class="right menu">
+    <a class="ui item">
+      Logout
+    </a>
+  </div>
+</div>
+
+<div id="par" style="margin: 20px;" class="ui inverted segment tope-width colorBarras"> 
+	<h3 style="color: rgb(240, 185, 11);">Quick Backtest</h3>
+	<form method="post" action="/simular" class="ui form" style="font-size: 16px;">
+		<div class="field">
+			<label for="search-select1" style="color: rgb(240, 185, 11);">PAR</label>
+			<select name="PAR1" class="ui search selection dropdown" id="search-select1">
+			{% for par1 in pares1 %}
+				<option value="{{ par1 }}">{{ par1 }}</option>
+			{% endfor %}		
+			</select>
+			<select name="PAR2" class="ui search selection dropdown" style="width: 50px;" id="search-select2">
+			{% for par2 in pares2 %}
+				<option value="{{ par2 }}">{{ par2 }}</option>
+			{% endfor %}		
+			</select>
+		</div>
+		<div class="field">
+			<label for="saldo" style="color: rgb(240, 185, 11);">SALDO INICIAL</label>
+			<input type="text" name="saldo" id="saldo">
+		</div>
+		<div class="field">
+		<label for="F_Desde" style="color: rgb(240, 185, 11);">DESDE</label>
+		<input type="date" name="F_Desde_date">
+		<input type="time" name="F_Desde_time">
+		</div>
+		<div class="field">
+		<label for="F_Hasta" style="color: rgb(240, 185, 11);">HASTA</label>
+		<input type="date" name="F_Hasta_date">
+		<input type="time" name="F_Hasta_time">
+		</div>
+		<button type="submit" class="ui large botonBinance">Backtest</button>
+	</form>
+</div>
+
+</body>
+
+<script type="text/javascript">
+$('#search-select1').dropdown();
+$('#search-select2').dropdown();
+</script>
+{% endblock content%}

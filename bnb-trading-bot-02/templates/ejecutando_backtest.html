@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    var msg_id = document.getElementById('loading_msg');
+    var msg_text = "Simulando... 0%"
+    
+    var refresh_ms = setInterval(function() {
+      $.get("{{ url_for('backtest_status') }}", function(data) {
+        var percentaje = parseFloat(data.percentaje)
+
+        msg_text = "Simulando... " + Math.round(percentaje * 100) + "%"
+        msg_id.innerHTML = msg_text;
+
+        if (percentaje == 1.0) {
+          window.location.replace("{{ url_for('backtest_result') }}");
+        }
+      }
+    )},
+    1000);
+  });
+</script>
+
+<body class="colorFondo">
+
+<div class="ui secondary pointing inverted menu colorBarras">
+  <a class="item" href="/">
+    Dashboard
+  </a>
+  <a class="item" href="/bots">
+    BOTs
+  </a>
+  <a class="item active">
+    Backtest
+  </a>
+  <div class="right menu">
+    <a class="ui item">
+      Logout
+    </a>
+  </div>
+</div>
+
+<div id="index_div" style="margin: 20px;" class="ui inverted colorBarras segment tope-width"> 
+  <div class="ui active inline text small indeterminate centered loader" id="loading_msg">Simulando... 0%</div>
+<!--  
+  <div class="ui small indicating progress" id="progress_bar">
+    <div class="bar">
+      <div class="progress"></div>
+    </div>
+  </div>
+-->
+</div>
+
+</body>
+
+{% endblock content %}

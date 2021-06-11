@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<body class="colorFondo">
+
+<div class="ui secondary pointing inverted menu colorBarras">
+  <a class="item active">
+    Dashboard
+  </a>
+  <a class="item" href="/bots">
+    BOTs
+  </a>
+  <a class="item" href="/backtest">
+    Backtest
+  </a>
+  <div class="right menu">
+    <a class="ui item">
+      Logout
+    </a>
+  </div>
+</div>
+
+<div id="index_div" style="margin: 20px;" class="ui inverted segment colorBarras tope-width"> 
+	<p>Ningun BOT creado</p>
+	<p>Ir a BOTs para crear uno</p>
+	<p>Ir a Backtest para hacer una prueba rapida</p>
+</div>
+
+<!--
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='semantic.css') }}">
+<script src="{{ url_for('static', filename='semantic.js') }}"></script></head>
+-->
+
+</body>
+
+{% endblock content %}
