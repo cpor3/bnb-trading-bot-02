@@ -148,6 +148,7 @@ bots = dict()
 @app.before_request
 def before_request():
 	g.bots = bots
+	g.infinite_thread = infinite_thread
 
 exchangeInfo = client.get_exchange_info()
 
@@ -159,4 +160,4 @@ if ENV == 'development':
 	print('WARNING: Development mode.\n')
 else:
 	signal.signal(signal.SIGTERM, handle_SIGTERM)
-	init_infinite_thread()
+	infinite_thread.start()

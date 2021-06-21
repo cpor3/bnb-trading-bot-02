@@ -108,27 +108,27 @@ def r():
 @views.route('/init_thread')
 def init_infinite_thread():
 
-	if not infinite_thread.is_active():
-		infinite_thread.start()
+	if not g.infinite_thread.is_active():
+		g.infinite_thread.start()
 
-		print('Infinite thread created at: {}'.format(infinite_thread.start_time))
+		print('Infinite thread created at: {}'.format(g.infinite_thread.start_time))
 
-		return 'Infinite thread started at: ' + infinite_thread.start_time
+		return 'Infinite thread started at: ' + g.infinite_thread.start_time
 	else:
 		return 'Infinite thread already active'
 
 @views.route('/stop_thread')
 def stop_thread():
-	infinite_thread.stop()
+	g.infinite_thread.stop()
 
 	return 'Stopping infinite thread...'
 
 @views.route('/thread_status')
 def thread_status():
-	if infinite_thread.is_active():
-		return "Thread initiated at " + infinite_thread.start_time + ". Current value: " + str(infinite_thread.counter)
+	if g.infinite_thread.is_active():
+		return "Thread initiated at " + g.infinite_thread.start_time + ". Current value: " + str(g.infinite_thread.counter)
 	else:
-		return "Thread not initiated. Current value: " + str(infinite_thread.counter)
+		return "Thread not initiated. Current value: " + str(g.infinite_thread.counter)
 
 @views.route('/write', methods=['GET', 'POST'])
 def write():
