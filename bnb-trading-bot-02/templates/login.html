@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<body class="colorFondo">
+
+<div class="ui secondary pointing inverted menu colorBarras">
+  <a class="item" href="/">
+    Dashboard
+  </a>
+  <a class="item" href="/bots">
+    BOTs
+  </a>
+  <a class="item" href="/backtest">
+    Backtest
+  </a>
+  {% if user.is_authenticated %}
+  <a class="item" href="/" style="color: rgb(240, 185, 11) !important;">
+    {{ user.name }}
+  </a>
+  {% endif %}
+
+  <div class="right menu">
+    {% if user.is_authenticated %}
+      <a class="ui item" href="/logout">Logout
+    {% else %}
+      <a class="ui item" href="">Login
+    {% endif %}
+    </a>
+  </div>
+</div>
+
+<div id="index_div" style="margin: 20px;" class="ui inverted segment colorBarras tope-width"> 
+  <form method="post" action="/login" class="ui form" style="font-size: 16px;">
+    <div class="field">
+      <label for="user" style="color: rgb(240, 185, 11);">User</label>
+      <input type="text" name="user">
+    </div>
+    <div class="field">
+    <label for="password" style="color: rgb(240, 185, 11);">Password</label>
+    <input type="password" name="password">
+    </div>
+    <button type="submit" class="ui large botonBinance">Sign in</button>
+    <a href="/signup" style="padding-left: 1em; color: rgb(240, 185, 11);">Sign up</a>
+  </form>
+</div>
+
+</body>
+
+{% endblock content %}

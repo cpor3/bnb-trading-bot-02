@@ -8,14 +8,14 @@
     var msg_text = "Simulando... 0%"
     
     var refresh_ms = setInterval(function() {
-      $.get("{{ url_for('backtest_status') }}", function(data) {
+      $.get("{{ url_for('views.backtest_status') }}", function(data) {
         var percentaje = parseFloat(data.percentaje)
 
         msg_text = "Simulando... " + Math.round(percentaje * 100) + "%"
         msg_id.innerHTML = msg_text;
 
         if (percentaje == 1.0) {
-          window.location.replace("{{ url_for('backtest_result') }}");
+          window.location.replace("{{ url_for('views.backtest_result') }}");
         }
       }
     )},
