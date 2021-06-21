@@ -1,1 +1,1 @@
-web: gunicorn bnb-trading-bot-02:create_app -w 1 --threads 2
+web: gunicorn bnb-trading-bot-02:bnb-trading-bot-02 -w 1 --threads 2
