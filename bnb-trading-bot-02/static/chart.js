@@ -7,7 +7,7 @@ colorFondo = 'rgb(25, 27, 32)'
 
 //Ajustar los tamaños de los graficos  
 document.getElementById("body").onresize = function() {
-    //chart velas
+    //chart de velas
     chart_div_width = document.getElementById("chart").offsetWidth;
     chart_div_height = document.getElementById("results").offsetHeight;
 
