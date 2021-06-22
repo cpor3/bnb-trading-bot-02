@@ -34,7 +34,7 @@ class Client_Learn():
 			self.end_time_ms = date_to_milliseconds(end_time)		
 
 		self.real_client = Client(api_key, secret_key)
-		time.sleep(1)
+		#time.sleep(1)
 
 	def set_simulation_times_ms(self, init_time, end_time):
 		

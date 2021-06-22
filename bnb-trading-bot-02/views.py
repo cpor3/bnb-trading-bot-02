@@ -26,6 +26,7 @@ def simular():
 
 @views.route('/backtest_status')
 def backtest_status():
+	print()
 	rendered_status = g.bots[current_user.get_id()].rendered_status
 
 	return rendered_status

@@ -1,6 +1,8 @@
 from binance.client import Client #verr
 from binance.helpers import *
 import threading
+#import copy
+from . import config_api
 
 from .Client_Learn import Client_Learn
 from .Trading_Analysis import interval_to_mins, tendencia, tendencia_offline, MA, create_offline_MA
@@ -13,7 +15,8 @@ LONGITUD_TENDENCIA = 10
 
 class Bot():
 	def __init__(self, _client, _PAR1='', _PAR2='', _interval=INTERVALO, _long_tendencia=LONGITUD_TENDENCIA, _long_MA=LONGITUD_MEDIA_MOVIL):
-		self.client = _client
+		#self.client = copy.deepcopy(_client)
+		self.client = Client_Learn(config_api.API_Key, config_api.Secret_Key)
 		self.PAR1 = _PAR1
 		self.PAR2 = _PAR2
 		self.PAR = self.PAR1 + self.PAR2
@@ -172,6 +175,7 @@ class Bot():
 			end_str = SIMULACION_FIN
 		)
 		MA_offline = create_offline_MA(
+			self.client,
 			self.long_tendencia, 
 			self.long_MA, 
 			self.PAR, 
@@ -210,7 +214,7 @@ class Bot():
 
 					precio_actual = self.precio(self.PAR)
 
-	#				precio_compra = MA(self.long_MA, PAR, "now UTC", self.interval) * FACTOR_DE_COMPRA # x% por debajo de la media
+	#				precio_compra = MA(self.client, self.long_MA, PAR, "now UTC", self.interval) * FACTOR_DE_COMPRA # x% por debajo de la media
 					MA_index = int(((self.client.current_time_ms - SIMULACION_INICIO) / interval_to_milliseconds(self.interval)) + self.long_tendencia)
 					precio_compra = MA_offline[MA_index] * self.FACTOR_DE_COMPRA # x% por debajo de la media
 					

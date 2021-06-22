@@ -35,8 +35,7 @@ def interval_to_mins(interval):
 
 	return 0
 
-def create_offline_MA(qty_muestras, length:int, symbol, start_str, end_str, interval_enum):
-	from . import client
+def create_offline_MA(client, qty_muestras, length:int, symbol, start_str, end_str, interval_enum):
 	MA = []
 
 	if type(end_str) == int:
@@ -63,8 +62,7 @@ def create_offline_MA(qty_muestras, length:int, symbol, start_str, end_str, inte
 
 	return MA
 
-def MA(length, symbol, end_str, interval_enum):
-	from . import client
+def MA(client, length, symbol, end_str, interval_enum):
 	qty = 0
 	sum = 0.0
 

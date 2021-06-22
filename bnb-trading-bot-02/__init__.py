@@ -26,27 +26,16 @@ DB_NAME = 'database.db'
 SIMULACION_INICIO = "2021-03-31 00:00:00 UTC" # ARGENTINA es 3hs menos que UTC
 SIMULACION_FIN = "2021-03-31 22:00:00 UTC" # ARGENTINA es 3hs menos que UTC
 
-def iniciar_API():
-	global client
-
-	print('Inicializando API...')
-	client = Client(config_api.API_Key, config_api.Secret_Key)
-	time.sleep(1)
-	print('API lista.\n')
-
-	return
-
-def iniciar_API_test():
-	global client
-
+def iniciar_API(test=False):
 	print('\nInicializando API...')
-#	client = Client_Learn(config_api.API_Key, config_api.Secret_Key, SIMULACION_INICIO, SIMULACION_FIN)
-	client = Client_Learn(config_api.API_Key, config_api.Secret_Key)
-#	time.sleep(1)
+	if test:
+		client = Client_Learn(config_api.API_Key, config_api.Secret_Key)
+	else:
+		client = Client(config_api.API_Key, config_api.Secret_Key)
 	print('API lista.\n')
 
-	return None
-
+	return client
+	
 def to_LightWeightChartFormat(klines, MA):
 
 	klines_converted_array = []
@@ -137,10 +126,7 @@ def precision_filter():
 
 	return dict(precision_filter=_precision_filter)
 
-client = []
-
-#iniciar_API()
-iniciar_API_test()
+client = iniciar_API(test=True)
 
 from .Bnb_Trading_Bot import Bot
 bots = dict()
