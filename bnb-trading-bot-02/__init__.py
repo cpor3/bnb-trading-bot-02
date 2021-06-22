@@ -117,7 +117,9 @@ app = create_app()
 @app.template_filter('datetime_format')
 def dar_formato(time_unixstamp):
 
-    return datetime.fromtimestamp(time_unixstamp)
+	datetime_str = datetime.fromtimestamp(time_unixstamp, timezone.utc) - timedelta(hours=3)
+
+	return datetime_str.strftime("%Y-%m-%d - %H:%M:%S")
 
 @app.context_processor
 def precision_filter():

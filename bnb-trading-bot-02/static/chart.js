@@ -71,7 +71,7 @@ var chart = LightweightCharts.createChart(document.getElementById("chart"), {
     watermark: {
         color: colorGrilla,
         visible: true,
-        text: 'BNB-TRADING-BOT-01',
+        text: title.toUpperCase(),
         fontSize: 48,
         horzAlign: 'center',
         vertAlign: 'center',

@@ -341,7 +341,6 @@ class Bot():
 		klines_converted, MA_offline_converted = to_LightWeightChartFormat(self.client.offline_klines, MA_offline)
 
 		self.rendered_data = {
-			'title': __name__,
 			'klines': klines_converted, 
 			'MA': MA_offline_converted,
 			'trades': self.trades, 

@@ -21,6 +21,8 @@
 		{% if MA %}
 			var MA_js = JSON.parse('{{ MA | tojson | safe }}');
 		{% endif %}
+
+		var title = "{{ title }}";
 	</script>
 
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bot-css.css') }}">
@@ -52,8 +54,8 @@
 <body id="body" class="colorFondo">
 
 <div class="ui secondary pointing inverted menu colorBarras">
-  {% for item in session['navbar'] %}
-  <a class="item {% if item['active'] == True %} active {% endif %}" href="{% if item['active'] == False %} {{ item['href'] }} {% endif %}">
+  {% for item in navbar %}
+  <a class="item {% if item['active'] == True %} active {% endif %}" href="{{ item['href'] }}">
     {{ item['text'] }}
   </a>    
   {% endfor %}
