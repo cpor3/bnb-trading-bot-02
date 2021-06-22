@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, g
-from flask_login import current_user
+from flask_login import current_user, login_required
 from .models import User
 from . import db
 from .Bnb_Trading_Bot import Bot
@@ -7,6 +7,7 @@ from .Bnb_Trading_Bot import Bot
 views = Blueprint('views', __name__)
 
 @views.route('/simular', methods=['POST'])
+@login_required
 def simular():
 	from . import client, app
 
@@ -22,9 +23,28 @@ def simular():
 
 	g.bots[current_user.get_id()] = bot
 
-	return render_template('ejecutando_backtest.html')
+	session['navbar'] = [
+		{
+			'text': 'Dashboard',
+			'href': '/',
+			'active': False
+		},
+		{
+			'text': 'BOTs', 
+			'href': '/bots',
+			'active': False
+		},
+		{
+			'text': 'Backtest',
+			'href': '/backtest',
+			'active': True
+		}
+	]
+
+	return render_template('ejecutando_backtest.html', title=__name__)
 
 @views.route('/backtest_status')
+@login_required
 def backtest_status():
 	print()
 	rendered_status = g.bots[current_user.get_id()].rendered_status
@@ -32,6 +52,7 @@ def backtest_status():
 	return rendered_status
 
 @views.route('/backtest_result')
+@login_required
 def backtest_result():
 	rendered_data = g.bots[current_user.get_id()].rendered_data
 	g.bots.pop(current_user.get_id())
@@ -59,13 +80,32 @@ def backtest_result():
 	)
 
 @views.route('/bots')
+@login_required
 def bots():
+	session['navbar'] = [
+		{
+			'text': 'Dashboard',
+			'href': '/',
+			'active': False
+		},
+		{
+			'text': 'BOTs', 
+			'href': '/bots',
+			'active': True
+		},
+		{
+			'text': 'Backtest',
+			'href': '/backtest',
+			'active': False
+		}
+	]
 
 	return render_template('bots.html', 
 		title=__name__
 	)
 
 @views.route('/backtest')
+@login_required
 def backtest():
 	pares1 = []
 	pares2 = []
@@ -79,6 +119,24 @@ def backtest():
 	for symbol in symbols:
 		pares2.append(symbol['quoteAsset'])
 
+	session['navbar'] = [
+		{
+			'text': 'Dashboard',
+			'href': '/',
+			'active': False
+		},
+		{
+			'text': 'BOTs', 
+			'href': '/bots',
+			'active': False
+		},
+		{
+			'text': 'Backtest',
+			'href': '/backtest',
+			'active': True
+		}
+	]
+
 	return render_template('backtest.html', 
 		title=__name__,
 		pares1=list(dict.fromkeys(pares1)), 
@@ -86,11 +144,28 @@ def backtest():
 	)
 
 @views.route('/')
+@login_required
 def index():
+	session['navbar'] = [
+		{
+			'text': 'Dashboard',
+			'href': '/',
+			'active': True
+		},
+		{
+			'text': 'BOTs', 
+			'href': '/bots',
+			'active': False
+		},
+		{
+			'text': 'Backtest',
+			'href': '/backtest',
+			'active': False
+		}
+	]
 
 	return render_template('index.html', 
-		title=__name__,
-		user=current_user
+		title=__name__
 	)
 
 @views.route('/w')

@@ -35,7 +35,7 @@ def iniciar_API(test=False):
 	print('API lista.\n')
 
 	return client
-	
+
 def to_LightWeightChartFormat(klines, MA):
 
 	klines_converted_array = []
@@ -102,7 +102,7 @@ def create_app():
 	create_db(app)
 
 	login_manager = LoginManager()
-	#login_manager.login_view = 'auth.login'
+	login_manager.login_view = 'auth.login'
 	login_manager.init_app(app)
 
 	@login_manager.user_loader

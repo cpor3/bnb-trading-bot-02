@@ -12,14 +12,14 @@
 	
 	<script type="text/javascript">
 		{% if klines %}
-		var klines_js = JSON.parse('{{ klines | tojson | safe }}');
-		var trades_js = JSON.parse('{{ trades | tojson | safe }}');
-		var price_precision = {{ price_precision }};
-		var quantity_precision = {{ quantity_precision }};
+			var klines_js = JSON.parse('{{ klines | tojson | safe }}');
+			var trades_js = JSON.parse('{{ trades | tojson | safe }}');
+			var price_precision = {{ price_precision }};
+			var quantity_precision = {{ quantity_precision }};
 		{% endif %}
+
 		{% if MA %}
-		//var MA = {{ MA }};
-		var MA_js = JSON.parse('{{ MA | tojson | safe }}');
+			var MA_js = JSON.parse('{{ MA | tojson | safe }}');
 		{% endif %}
 	</script>
 
@@ -44,10 +44,32 @@
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-TileImage" content="{{ url_for('static', filename='favicon/ms-icon-144x144.png') }}">
 	<meta name="theme-color" content="#ffffff">
+	{% block header %}
+	{% endblock %}
 
 </head>
 
+<body id="body" class="colorFondo">
+
+<div class="ui secondary pointing inverted menu colorBarras">
+  {% for item in session['navbar'] %}
+  <a class="item {% if item['active'] == True %} active {% endif %}" href="{% if item['active'] == False %} {{ item['href'] }} {% endif %}">
+    {{ item['text'] }}
+  </a>    
+  {% endfor %}
+  {% if current_user.is_authenticated %}
+  <div class="right menu">
+    <p class="ui item hideOnPhone" style="color: rgb(240, 185, 11) !important;">
+      {{ current_user.name }}
+    </p>
+    <a class="ui item" href="/logout">
+      Logout
+    </a>
+  </div>
+  {% endif %}
+</div>
+
 {% block content %}
-{% endblock content %}
+{% endblock %}
 
 </html>

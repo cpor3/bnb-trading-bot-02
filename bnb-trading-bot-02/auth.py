@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from .models import User
 from . import db
@@ -17,7 +17,7 @@ def login():
 			if user_logged.password == password:
 				login_user(user_logged)
 				rta = f"Usuario {user_logged.name} logeado"
-				session['temp_var'] = rta
+				return redirect(url_for('views.index'))
 			else:
 				rta = "Password incorrecta"
 		else:
@@ -25,12 +25,26 @@ def login():
 
 		print(rta)
 
-	return render_template('login.html', user=current_user)
+	return render_template('login.html', title=__name__)
 
 @auth.route('/logout')
 @login_required
 def logout():
-	session.pop('temp_var')
 	logout_user()
 
-	return render_template('index.html')
+	return redirect(url_for('views.index'))
+
+@auth.route('/signup', methods=['GET', 'POST'])
+def signup():
+	if request.method == 'GET':
+		return render_template('signup.html', title=__name__)
+	else:
+		name = request.form['email']
+		password = request.form['password1']
+
+		new_user = User(name=name, password=password)
+		db.session.add(new_user)
+		db.session.commit()
+
+		return redirect(url_for('auth.login'))
+

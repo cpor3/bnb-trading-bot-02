@@ -1,25 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<body class="colorFondo">
-
-<div class="ui secondary pointing inverted menu colorBarras">
-  <a class="item" href="/">
-    Dashboard
-  </a>
-  <a class="item" href="/bots">
-    BOTs
-  </a>
-  <a class="item active">
-    Backtest
-  </a>
-  <div class="right menu">
-    <a class="ui item">
-      Logout
-    </a>
-  </div>
-</div>
-
 <div id="par" style="margin: 20px;" class="ui inverted segment tope-width colorBarras"> 
 	<h3 style="color: rgb(240, 185, 11);">Quick Backtest</h3>
 	<form method="post" action="/simular" class="ui form" style="font-size: 16px;">

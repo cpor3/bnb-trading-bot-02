@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
-{% block content %}
+
+{% block header %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
@@ -23,24 +24,9 @@
   });
 </script>
 
-<body class="colorFondo">
+{% endblock %}
 
-<div class="ui secondary pointing inverted menu colorBarras">
-  <a class="item" href="/">
-    Dashboard
-  </a>
-  <a class="item" href="/bots">
-    BOTs
-  </a>
-  <a class="item active">
-    Backtest
-  </a>
-  <div class="right menu">
-    <a class="ui item">
-      Logout
-    </a>
-  </div>
-</div>
+{% block content %}
 
 <div id="index_div" style="margin: 20px;" class="ui inverted colorBarras segment tope-width"> 
   <div class="ui active inline text small indeterminate centered loader" id="loading_msg">Simulando... 0%</div>
@@ -55,4 +41,4 @@
 
 </body>
 
-{% endblock content %}
+{% endblock %}
