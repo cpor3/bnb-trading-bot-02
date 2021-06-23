@@ -2,10 +2,27 @@
 {% block content %}
 
 <div id="index_div" style="margin: 20px;" class="ui inverted colorBarras segment tope-width"> 
-	<p>Ningun BOT creado</p>
-  <p>Ir a Backtest para hacer una simulacion rapida</p>
-</div>
+	<button onclick="location.href='/new_bot'" class="botonBinance">New Bot</button>
 
+	<table class="ui inverted very small compact unstackable table">
+		<thead>
+			<th><h4 class="colorTextoBinance">NAME</h4></th>
+			<th><h4 class="colorTextoBinance">PAR</h4></th>
+			<th><h4 class="colorTextoBinance">STATUS</h4></th>
+		</thead>
+		{% if user_bots.first() == None %}
+			<td colspan="3">No Bots</td>
+		{% else %}
+		{% for bot in user_bots %}
+		<tr>
+			<td>{{ bot.name }}</td>
+			<td>{{ bot.par }}</td>
+			<td>{{ bot.status }}</td>
+		</tr>
+		{% endfor %}
+	 	{% endif %}
+	</table>
+</div>
 </body>
 
 {% endblock content %}

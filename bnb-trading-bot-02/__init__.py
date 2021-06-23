@@ -1,4 +1,4 @@
-from flask import *
+from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from flask_login import LoginManager
@@ -108,7 +108,6 @@ def create_app():
 	@login_manager.user_loader
 	def load_user(user_id):
 	    return User.query.get(user_id)
-	    #return User.get(int(user_id))
 
 	return app
 

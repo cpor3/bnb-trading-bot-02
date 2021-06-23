@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="par" style="margin: 20px;" class="ui inverted segment tope-width colorBarras"> 
+	<h3 style="color: rgb(240, 185, 11);">New Bot</h3>
+	<form method="post" action="/new_bot" class="ui form" style="font-size: 16px;">
+		<div class="field">
+			<label for="name" style="color: rgb(240, 185, 11);">Name</label>
+			<input type="text" name="name" id="name" value="">
+		</div>
+		<div class="field">
+			<label for="search-select1" style="color: rgb(240, 185, 11);">PAR</label>
+			<select name="PAR1" class="ui search selection dropdown" id="search-select1" value="BTC">
+			{% for par1 in pares1 %}
+				<option value="{{ par1 }}" {% if par1 == 'SFP' %} selected {% endif %}>{{ par1 }}</option>
+			{% endfor %}		
+			</select>
+			<select name="PAR2" class="ui search selection dropdown" style="width: 50px;" id="search-select2" value="USDT">
+			{% for par2 in pares2 %}
+				<option value="{{ par2 }}" {% if par2 == 'USDT' %} selected {% endif %}>{{ par2 }}</option>
+			{% endfor %}		
+			</select>
+		</div>
+		<button type="submit" class="ui large botonBinance">Add Bot</button>
+	</form>
+</div>
+
+</body>
+
+<script type="text/javascript">
+$('#search-select1').dropdown();
+$('#search-select2').dropdown();
+</script>
+{% endblock %}

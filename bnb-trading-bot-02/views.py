@@ -1,10 +1,35 @@
-from flask import Blueprint, render_template, request, session, g
+from flask import Blueprint, render_template, request, redirect, url_for, session, g
 from flask_login import current_user, login_required
-from .models import User
+from .models import User, Bots
 from . import db, APP
 from .Bnb_Trading_Bot import Bot
 
 views = Blueprint('views', __name__)
+
+@views.route('/')
+@login_required
+def index():
+
+	return render_template('index.html', 
+		title = APP,
+		navbar = [
+			{
+				'text': 'Dashboard',
+				'href': '/',
+				'active': True
+			},
+			{
+				'text': 'BOTs', 
+				'href': '/bots',
+				'active': False
+			},
+			{
+				'text': 'Backtest',
+				'href': '/backtest',
+				'active': False
+			}
+		]
+	)
 
 @views.route('/simular', methods=['POST'])
 @login_required
@@ -101,6 +126,8 @@ def backtest_result():
 @login_required
 def bots():
 
+	user_bots = Bots.query.filter_by(user_id = current_user.id)
+
 	return render_template('bots.html', 
 		title=APP,
 		navbar = [
@@ -119,8 +146,62 @@ def bots():
 				'href': '/backtest',
 				'active': False
 			}
-		]
+		],
+		user_bots = user_bots
 	)
+
+@views.route('/new_bot', methods=['GET', 'POST'])
+@login_required
+def new_bot():
+	if request.method == 'GET':
+		pares1 = []
+		pares2 = []
+
+		from . import exchangeInfo
+		symbols = exchangeInfo['symbols']
+
+		for symbol in symbols:
+			pares1.append(symbol['baseAsset'])
+
+		for symbol in symbols:
+			pares2.append(symbol['quoteAsset'])
+
+		return render_template('new_bot.html', 
+			pares1=list(dict.fromkeys(pares1)), 
+			pares2=list(dict.fromkeys(pares2)),
+			navbar = [
+				{
+					'text': 'Dashboard',
+					'href': '/',
+					'active': False
+				},
+				{
+					'text': 'BOTs', 
+					'href': '#',
+					'active': True
+				},
+				{
+					'text': 'Backtest',
+					'href': '/backtest',
+					'active': False
+				}
+			]
+		)
+	else:
+		new_bot_obj = Bots(
+			name = request.form['name'],
+			par1 = request.form['PAR1'],
+			par2 = request.form['PAR2'],
+			par = request.form['PAR1'] + request.form['PAR2'],
+			status = "stopped",
+			user_id = current_user.id,
+			starting_capital = 0.0,
+			current_wallet = 0.0
+		)
+		db.session.add(new_bot_obj)
+		db.session.commit()
+
+		return redirect(url_for('views.bots'))
 
 @views.route('/backtest')
 @login_required
@@ -160,30 +241,13 @@ def backtest():
 		]
 	)
 
-@views.route('/')
-@login_required
-def index():
+@views.route('/mem')
+def show_mem():
+	msj = f"len(g.bots) = {len(g.bots)}"
 
-	return render_template('index.html', 
-		title = APP,
-		navbar = [
-			{
-				'text': 'Dashboard',
-				'href': '/',
-				'active': True
-			},
-			{
-				'text': 'BOTs', 
-				'href': '/bots',
-				'active': False
-			},
-			{
-				'text': 'Backtest',
-				'href': '/backtest',
-				'active': False
-			}
-		]
-	)
+	return msj
+
+###### Infinite Thread #######
 
 @views.route('/init_thread')
 def init_infinite_thread():

@@ -42,10 +42,21 @@
 </div>
 
 <div id="index_div" style="margin: 20px;" class="ui inverted segment colorBarras tope-width"> 
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  {% if category == 'error' %}
+  <div class="ui red inverted segment">
+    {{ message }}
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
   <form method="post" action="/login" class="ui form" style="font-size: 16px;">
     <div class="field">
-      <label for="user" style="color: rgb(240, 185, 11);">User</label>
-      <input type="text" name="user">
+      <label for="email" style="color: rgb(240, 185, 11);">Email</label>
+      <input type="text" name="email">
     </div>
     <div class="field">
     <label for="password" style="color: rgb(240, 185, 11);">Password</label>

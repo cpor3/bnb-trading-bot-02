@@ -62,7 +62,7 @@
   {% if current_user.is_authenticated %}
   <div class="right menu">
     <p class="ui item hideOnPhone" style="color: rgb(240, 185, 11) !important;">
-      {{ current_user.name }}
+      {{ current_user.email }}
     </p>
     <a class="ui item" href="/logout">
       Logout
