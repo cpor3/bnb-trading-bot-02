@@ -147,5 +147,5 @@ if ENV == 'development':
 	print('WARNING: Development mode.\n')
 else:
 	signal.signal(signal.SIGTERM, handle_SIGTERM)
-	if INFINITE_THREAD_AUTOSTART:
+	if config_api.INFINITE_THREAD_AUTOSTART:
 		infinite_thread.start()
