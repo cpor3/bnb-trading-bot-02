@@ -23,7 +23,7 @@ class Infinite_Thread():
 	def stop(self):
 		self.active = False
 
-	def is_active():
+	def is_active(self):
 		return self.active
 
 	def infinite_thread(self):
