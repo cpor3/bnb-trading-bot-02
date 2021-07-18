@@ -1,7 +1,7 @@
-APP_SECRET_KEY = 'vjnwurASDSGYASFndfo12349856'
+APP_SECRET_KEY = ''
 
-API_Key = 'UqBAaasE1AraBxzOVqxUDBvfYjwMClomfljGCGek6jE7zBDIigOEbxv3lMhB5Rbp'
-Secret_Key = 'hE0p8E6GjhycnKgJ3iUq1EQE77eI1tHRtnsPLwhNV13FsIBTggAo55aB0arzknQ1'
+API_Key = ''
+Secret_Key = ''
 
 COMISION_BINANCE = 0.001
 
