@@ -21,17 +21,18 @@ import os
 
 APP = 'bnb-trading-bot-02'
 APP_URI = f'https://{APP}.herokuapp.com'
-DB_NAME = 'database.db'
+DB_NAME = config_api.DB_NAME
 
-SIMULACION_INICIO = "2021-03-31 00:00:00 UTC" # ARGENTINA es 3hs menos que UTC
-SIMULACION_FIN = "2021-03-31 22:00:00 UTC" # ARGENTINA es 3hs menos que UTC
+APP_SECRET_KEY = os.environ.get('APP_SECRET_KEY')
+API_KEY = os.environ.get('API_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 def iniciar_API(test=False):
 	print('\nInicializando API...')
 	if test:
-		client = Client_Learn(config_api.API_Key, config_api.Secret_Key)
+		client = Client_Learn(api_key=API_KEY, secret_key=SECRET_KEY)
 	else:
-		client = Client(config_api.API_Key, config_api.Secret_Key)
+		client = Client(api_key=API_KEY, secret_key=SECRET_KEY)
 	print('API lista.\n')
 
 	return client
@@ -87,7 +88,7 @@ def create_db(app):
 def create_app():
 	app = Flask(__name__)
 
-	app.config['SECRET_KEY'] = config_api.APP_SECRET_KEY
+	app.config['SECRET_KEY'] = APP_SECRET_KEY
 	app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

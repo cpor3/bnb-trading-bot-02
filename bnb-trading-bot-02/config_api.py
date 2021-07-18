@@ -1,8 +1,10 @@
-APP_SECRET_KEY = 'vjnwurASDSGYASFndfo12349856_2'
+"""Configuration parameters"""
 
-API_Key = 'vu99GblmbMYF2Ujf6tdHqNJKeG7tJEdtVPaeh5Q7a13qHvXEbs23CSDIhNbB8tEw'
-Secret_Key = 'CsokALRxuN4xwQxlTvpWL07WOBl5v7wTH1DdrH8It3qFecjfSG1t13LHz0D52OAI'
-
+# Binance comission
 COMISION_BINANCE = 0.001
 
+# Auto start up of the infinite thread after Heroku's daily reboot
 INFINITE_THREAD_AUTOSTART = True
+
+# General database name
+DB_NAME = 'database.db'

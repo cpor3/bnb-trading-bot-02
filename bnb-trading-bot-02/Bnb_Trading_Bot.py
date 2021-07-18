@@ -1,22 +1,23 @@
 from binance.client import Client #verr
 from binance.helpers import *
 import threading
-#import copy
-from . import config_api
+import os
 
+from . import config_api
+from . import to_LightWeightChartFormat
 from .Client_Learn import Client_Learn
 from .Trading_Analysis import interval_to_mins, tendencia, tendencia_offline, MA, create_offline_MA
-
-from . import config_api, to_LightWeightChartFormat
 
 INTERVALO = Client.KLINE_INTERVAL_5MINUTE # tiene que ser unos de los enums de python-binance
 LONGITUD_MEDIA_MOVIL = 50
 LONGITUD_TENDENCIA = 10
+API_KEY = os.environ.get('API_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 class Bot():
 	def __init__(self, _client, _PAR1='', _PAR2='', _interval=INTERVALO, _long_tendencia=LONGITUD_TENDENCIA, _long_MA=LONGITUD_MEDIA_MOVIL):
 		#self.client = copy.deepcopy(_client)
-		self.client = Client_Learn(config_api.API_Key, config_api.Secret_Key)
+		self.client = Client_Learn(api_key=API_KEY, secret_key=SECRET_KEY)
 		self.PAR1 = _PAR1
 		self.PAR2 = _PAR2
 		self.PAR = self.PAR1 + self.PAR2
