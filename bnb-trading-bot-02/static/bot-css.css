@@ -41,6 +41,13 @@ body {
 	background-color: rgba(255, 255, 255, 1);
 }
 
+.center_horiz {
+	position: fixed;
+	left: 50%;
+	transform: translate(-50%);
+	align-content: center;
+}
+
 @media (max-width: 599px) {
 	.hideOnPhone {
 		display: none;
